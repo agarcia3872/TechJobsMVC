@@ -10,8 +10,8 @@
                 <input type="radio"
                        name="searchType"
                        id="@column.Key"
-                       value="@column.Key" 
-                       checked="@column.Key == 'all''"/>
+                       value="@column.Key"
+                       checked="@column.Key == 'all''" />
                 <label for="@column.Key">@column.Value</label>
             </span>
         }
@@ -30,7 +30,28 @@
 @if (ViewBag.jobs != null)
 {
 
-    <h3>@ViewBag.jobs.Count Result(s)</h3>
+    // <h3>@ViewBag.jobs.Count Result(s)</h3>
 
-    // TODO #2 - Loop over jobs dictionary and display all job fields 
+    // TODO #2 - Loop over jobs dictionary and display all job fields
+
+    
+
+    @foreach (Dictionary<string, string> job in ViewBag.jobs)
+    {
+        <table class="job-listing">
+            @foreach (KeyValuePair<string, string> field in job)
+            {
+                <tr>
+                    <td>@field.Key.ToUpper()</td>
+                    <td><a asp-controller="List" asp-action="Jobs" asp-route-column="@field.Key" asp-route-value="@field.Value">@field.Value</a></td>
+                </tr>
+            }
+        </table>
+
+    }
+
+    //Output generated in another view is rendered into the calling (or parent) view
+    //This will allow the reuse of code from another view in the calling view
+
+    //@Html.Partial("/Views/List/Jobs.cshtml")
 }
